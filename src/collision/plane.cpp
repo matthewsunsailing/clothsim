@@ -12,7 +12,16 @@ using namespace CGL;
 
 void Plane::collide(PointMass &pm) {
   // TODO (Part 3): Handle collisions with planes.
+  double prev_proj = dot(pm.last_position - point, normal) / dot(normal, normal); // this is the length projected
+  double curr_proj = dot(pm.position - point, normal) / dot(normal, normal);
 
+  if ((prev_proj * curr_proj) < 0) {
+    Vector3D dir = (pm.position - pm.last_position).unit(); // may not be orthogonal to the plane
+    double t = -prev_proj / dot(dir, normal);
+    Vector3D isect = pm.last_position + t * dir;
+    Vector3D crt = (isect + (SURFACE_OFFSET * normal)) - pm.last_position;
+    pm.position = pm.last_position + (1 - friction) * crt;
+  }
 }
 
 void Plane::render(GLShader &shader) {
