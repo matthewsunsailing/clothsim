@@ -14,6 +14,10 @@ in vec4 in_normal;
 in vec4 in_tangent;
 in vec2 in_uv;
 
+uniform float u_normal_scaling;
+uniform float u_height_scaling;
+
+uniform sampler2D u_texture_6;
 // In a vertex shader, the "out" variables are per-vertex properties
 // that are read/write. These properties allow us to communicate
 // information from the vertex shader to the fragment shader.
@@ -24,6 +28,9 @@ out vec4 v_normal;
 out vec2 v_uv;
 out vec4 v_tangent;
 
+float h(vec2 uv) {
+  return texture(u_texture_6, uv).r;
+}
 // Every shader features a "main" function.
 // This is typically where we write to the "out" variables that the
 // fragment shaders get to use. It is also where "gl_Position" is set,
@@ -33,12 +40,12 @@ void main() {
   // Here, we just apply the model's transformation to the various
   // per-vertex properties. That way, when the fragment shader reads
   // them, we already have the position in world-space.
-  v_position = u_model * in_position;
   v_normal = normalize(u_model * in_normal);
   v_uv = in_uv;
   v_tangent = normalize(u_model * in_tangent);
   
   // The final screen-space location of this vertex which the
   // GPU's triangle rasterizer takes in.
-  gl_Position = u_view_projection * u_model * in_position;
+  v_position = u_model * in_position + v_normal * h(v_uv) * u_height_scaling;
+  gl_Position = u_view_projection * v_position;
 }
