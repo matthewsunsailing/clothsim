@@ -54,20 +54,20 @@ void main() {
   vec3 no = vec3(-dU, -dV, 1.);
   vec3 nd = tbn * normalize(no);
   
-  // vec3 ka = vec3(0.1, 0.1, 0.1);
-  // vec3 kd = vec3(1., 1., 1.);
-  // vec3 ks = vec3(0.7, 0.7, 0.7);
-  // vec3 Ia = vec3(0.1, 0.1, 0.1);
-  // float p = 64;
+  vec3 ka = vec3(0.1, 0.1, 0.1);
+  vec3 kd = vec3(0.5, 0.5, 0.5);
+  vec3 ks = vec3(0.7, 0.7, 0.7);
+  vec3 Ia = vec3(0.1, 0.1, 0.1);
+  float p = 64;
 
-  // vec3 light = u_light_pos - v_position.xyz;
-  // vec3 l = normalize(light);
-  // vec3 camdir = normalize(u_cam_pos - v_position.xyz);
-  // vec3 h = normalize(camdir + l);
-  // float radius = length(light);
-  // float rad2 = radius * radius;
-  // vec3 color = ka * Ia + kd * u_light_intensity / rad2 * max(0., dot(nd, l)) + ks * u_light_intensity / rad2 * pow(max(0, dot(nd, h)), p);
-  // out_color = vec4(color, 0.0);
-  // out_color.a = 1.0;
-  out_color = texture(u_texture_7, v_uv);
+  vec3 light = u_light_pos - v_position.xyz;
+  vec3 l = normalize(light);
+  vec3 camdir = normalize(u_cam_pos - v_position.xyz);
+  vec3 h = normalize(camdir + l);
+  float radius = length(light);
+  float rad2 = radius * radius;
+  vec3 color = ka * Ia + kd * u_light_intensity / rad2 * max(0., dot(nd, l)) + ks * u_light_intensity / rad2 * pow(max(0, dot(nd, h)), p) + texture(u_texture_7, v_uv).xyz;
+  out_color = vec4(color, 0.0);
+  out_color.a = 1.0;
+  // out_color = texture(u_texture_7, v_uv);
 }

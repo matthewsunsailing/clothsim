@@ -12,12 +12,26 @@ using namespace CGL;
 
 void Plane::collide(PointMass &pm) {
   // TODO (Part 3): Handle collisions with planes.
-  double prev_proj = dot(pm.last_position - point, normal) / dot(normal, normal); // this is the length projected
-  double curr_proj = dot(pm.position - point, normal) / dot(normal, normal);
+  // double prev_proj = dot(pm.last_position, normal) - dot(point, normal); // this is the length projected
+  // double curr_proj = dot(pm.position, normal) - dot(point, normal);
 
-  if ((prev_proj * curr_proj) < 0) {
-    Vector3D dir = (pm.position - pm.last_position).unit(); // may not be orthogonal to the plane
-    double t = -prev_proj / dot(dir, normal);
+  // if ((prev_proj * curr_proj) < 0) {
+  //   Vector3D dir = (pm.position - pm.last_position).unit(); // may not be orthogonal to the plane
+  //   double t = -prev_proj / dot(dir, normal);
+  //   Vector3D isect = pm.last_position + t * dir;
+  //   Vector3D crt = (isect + (SURFACE_OFFSET * normal)) - pm.last_position;
+  //   pm.position = pm.last_position + (1 - friction) * crt;
+  // } else if (curr_proj < 0) {
+  //   Vector3D dir = (pm.position - pm.last_position).unit(); // may not be orthogonal to the plane
+  //   double t = -prev_proj / dot(dir, normal);
+  //   Vector3D isect = pm.last_position + t * dir;
+  //   Vector3D crt = (isect + (SURFACE_OFFSET * normal * 2)) - pm.last_position;
+  //   pm.position = pm.last_position + (1 - friction) * crt;
+  // }
+  double curr_proj = dot(pm.position - point, normal);
+  if (curr_proj < 0) {
+    Vector3D dir = (pm.position - pm.last_position).unit();
+    double t = dot(point - pm.last_position, normal) / dot(dir, normal);
     Vector3D isect = pm.last_position + t * dir;
     Vector3D crt = (isect + (SURFACE_OFFSET * normal)) - pm.last_position;
     pm.position = pm.last_position + (1 - friction) * crt;

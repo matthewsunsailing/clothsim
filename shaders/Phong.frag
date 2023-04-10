@@ -14,7 +14,7 @@ out vec4 out_color;
 void main() {
   // YOUR CODE HERE
   
-  vec3 ka = vec3(0.1, 0.1, 0.1);
+  vec3 ka = vec3(0.5, 0.5, 0.5);
   vec3 kd = vec3(1., 1., 1.);
   vec3 ks = vec3(0.7, 0.7, 0.7);
   vec3 Ia = vec3(0.1, 0.1, 0.1);

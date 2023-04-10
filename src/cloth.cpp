@@ -212,6 +212,10 @@ void Cloth::self_collide(PointMass &pm, double simulation_steps) {
   }
 }
 
+double cantor(double x, double y) {
+  return .5 * (x + y) * (x + y + 1) + y;
+}
+
 float Cloth::hash_position(Vector3D pos) {
   // TODO (Part 4): Hash a 3D position into a unique float identifier that represents membership in some 3D box volume.
 
@@ -223,7 +227,7 @@ float Cloth::hash_position(Vector3D pos) {
   double y = floor(pos.y / h);
   double z = floor(pos.z / t);
 
-  return x * y + y * z + x * z;
+  return cantor(cantor(x, y), z);
 }
 
 ///////////////////////////////////////////////////////
